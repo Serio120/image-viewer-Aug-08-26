@@ -1252,7 +1252,7 @@ Solo dime si quieres que te prepare **el README.md** también.
 
 # **Con el README profesional, la estructura y la instalación vale, el resto ya lo hago yo**
 
-Perfecto, Mariano. Te preparo **lo que pediste exactamente**:  
+Perfecto, Mariano. Te preparo **lo que pediste exactamente**:
 
 - **README profesional**  
 - **Estructura recomendada del repositorio**  
@@ -1417,3 +1417,513 @@ Si quieres, puedo prepararte también:
 - **Una versión portable sin necesidad de instalar Python**  
 
 Solo dime qué quieres añadir y lo hacemos.
+
+---
+
+# **Tengo todo listo para ejecutarlo en mi equipo: python main.py?**
+
+---
+
+Sí, Mariano — **ya lo tienes todo listo para ejecutarlo**.  
+Con la estructura que montaste y las dependencias instaladas, el comando correcto es exactamente este:
+
+```
+python main.py
+```
+
+Si tu entorno virtual está activado, verás algo así en la terminal:
+
+```
+(venv) PS C:\Users\maria\image-manager>
+```
+
+Y entonces:
+
+```
+python main.py
+```
+
+La aplicación debería abrirse con:
+
+- Panel izquierdo (carpeta + búsqueda)  
+- Grid de miniaturas  
+- Vista previa  
+- Etiquetas  
+- Favoritos  
+- EXIF  
+- Exportación  
+
+Si al ejecutarlo ocurre **cualquier cosa rara** (ventana en blanco, error de importación, fallo de PyQt, etc.), dímelo y lo corregimos en segundos.
+
+Si todo va bien, disfruta del momento:  
+**acabaste de construir un gestor de imágenes completo en una tarde.**
+
+---
+
+# **No tiene errores 😊, pero hay que añadirle cosillas**
+
+---
+
+Mariano, qué alegría que **no tenga errores** y que ya esté funcionando.  
+Ahora viene la parte divertida: **pulirla y añadirle cosillas** para que pase de “funciona” a “qué pasada de app”.
+
+Y como ya vi que tienes abierto tu repo en GitHub, vamos a trabajar como si esto fuera un proyecto real.
+
+Aquí tienes una lista de mejoras **útiles, realistas y rápidas de implementar**, ordenadas por impacto y dificultad.
+
+---
+
+# ⭐ Mejoras que te recomiendo añadir (nivel profesional pero fáciles)
+
+## 1. **Vista de favoritos**
+Ahora mismo puedes marcar favoritos, pero no tienes un botón para ver solo esos.
+
+Añadir un botón “⭐ Ver favoritos” es muy fácil:
+
+- Un botón en el panel izquierdo  
+- Una función que cargue solo las imágenes de la tabla `favorites`  
+- Reutilizas el mismo grid  
+
+Esto te da una vista rápida de tus imágenes importantes.
+
+---
+
+## 2. **Modo oscuro / claro**
+PyQt5 permite aplicar estilos con CSS.  
+Puedes añadir un botón “🌙 / ☀️” para cambiar entre temas.
+
+Ejemplo de estilo:
+
+```python
+self.setStyleSheet("""
+    QWidget {
+        background-color: #1e1e1e;
+        color: white;
+    }
+    QListWidget {
+        background-color: #2b2b2b;
+    }
+""")
+```
+
+Queda precioso.
+
+---
+
+## 3. **Arrastrar y soltar imágenes**
+Para que puedas arrastrar imágenes desde el explorador directamente a la app.
+
+PyQt5 lo soporta con:
+
+```python
+self.setAcceptDrops(True)
+```
+
+Y luego implementas:
+
+```python
+def dragEnterEvent(self, event):
+    event.accept()
+
+def dropEvent(self, event):
+    files = event.mimeData().urls()
+    for f in files:
+        path = f.toLocalFile()
+        # procesar imagen
+```
+
+Esto hace la app mucho más cómoda.
+
+---
+
+## 4. **Eliminar imágenes**
+Un botón “🗑️ Eliminar imagen” que:
+
+- Borra la imagen del disco  
+- Borra sus tags  
+- Borra su favorito  
+- Borra su thumbnail  
+
+Muy útil para limpiar carpetas grandes.
+
+---
+
+## 5. **Renombrar imágenes**
+Un botón “✏️ Renombrar” que abra un diálogo:
+
+```python
+new_name, ok = QInputDialog.getText(self, "Renombrar", "Nuevo nombre:")
+```
+
+Y luego:
+
+```python
+os.rename(old_path, new_path)
+```
+
+---
+
+## 6. **Ordenar imágenes**
+Añadir un combo:
+
+- Ordenar por nombre  
+- Ordenar por fecha  
+- Ordenar por tamaño  
+- Ordenar por extensión  
+
+Esto se hace ordenando la lista antes de añadir los thumbnails.
+
+---
+
+## 7. **Zoom en la vista previa**
+Ahora mismo se ajusta automáticamente, pero puedes añadir:
+
+- Rueda del ratón para zoom  
+- Botones + y –  
+- Zoom al 100%  
+
+Con:
+
+```python
+self.preview.setScaledContents(True)
+```
+
+Y ajustando el tamaño del QLabel.
+
+---
+
+## 8. **Modo presentación (slideshow)**
+Un botón “▶️ Presentación” que muestre las imágenes una tras otra cada X segundos.
+
+Con un `QTimer`:
+
+```python
+self.timer = QTimer()
+self.timer.timeout.connect(self.next_image)
+self.timer.start(2000)  # cada 2 segundos
+```
+
+---
+
+## 9. **Barra de estado abajo**
+Para mostrar:
+
+- Número de imágenes cargadas  
+- Imagen seleccionada  
+- Tamaño del archivo  
+- Resolución  
+
+Con un `QStatusBar`.
+
+---
+
+## 10. **Miniaturas más rápidas (opcional)**
+Si quieres más velocidad:
+
+- Usa thumbnails de 128px en vez de 200px  
+- Guarda thumbnails en formato WebP  
+- Cachea también EXIF  
+
+Esto acelera muchísimo la carga.
+
+---
+
+# 🔥 ¿Qué quieres que implementemos primero?
+Te propongo tres caminos:
+
+### **A) Mejoras visuales**
+Modo oscuro, zoom, barra de estado, ordenación.
+
+### **B) Mejoras funcionales**
+Eliminar, renombrar, favoritos, arrastrar y soltar.
+
+### **C) Mejoras avanzadas**
+Slideshow, filtros avanzados, vista de detalles ampliada.
+
+Dime **A, B o C**, y te escribo el código completo listo para copiar y pegar en tu proyecto.
+
+---
+
+# **Vamos bien de tiempo, adelante con todo**
+
+---
+
+Genial, vamos a meterle todo ese “extra” que la va a hacer sentir como una app seria de escritorio.
+
+Voy a centrarme en **mejoras funcionales y visuales** que puedas copiar y pegar sin romper nada:
+
+- Ver solo favoritos  
+- Eliminar imágenes  
+- Renombrar imágenes  
+- Ordenar imágenes  
+- Modo oscuro  
+
+Te doy solo el código que tienes que añadir/modificar en `ui.py`, para no liarte.
+
+---
+
+### 1️⃣ Botón “Ver solo favoritos”
+
+En el panel izquierdo, añade este botón junto al de carpeta y búsqueda.
+
+Busca donde creas el panel izquierdo y añade:
+
+```python
+self.show_favorites_btn = QPushButton("⭐ Ver favoritos")
+self.show_favorites_btn.clicked.connect(self.show_favorites)
+```
+
+Y añádelo al layout:
+
+```python
+left_panel.addWidget(self.folder_btn)
+left_panel.addWidget(self.search_box)
+left_panel.addWidget(self.show_favorites_btn)
+left_panel.addWidget(self.folder_list)
+```
+
+Ahora añade el método:
+
+```python
+def show_favorites(self):
+    self.grid.clear()
+
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    rows = c.execute("SELECT image FROM favorites").fetchall()
+    conn.close()
+
+    for (img,) in rows:
+        if os.path.exists(img):
+            thumb = get_thumbnail(img)
+            item = QListWidgetItem(QIcon(thumb), os.path.basename(img))
+            item.setData(Qt.UserRole, img)
+            self.grid.addItem(item)
+```
+
+---
+
+### 2️⃣ Botones “Eliminar” y “Renombrar”
+
+En el panel derecho, debajo de exportar, añade:
+
+```python
+self.delete_btn = QPushButton("🗑️ Eliminar imagen actual")
+self.delete_btn.clicked.connect(self.delete_current)
+
+self.rename_btn = QPushButton("✏️ Renombrar imagen actual")
+self.rename_btn.clicked.connect(self.rename_current)
+```
+
+Y en el layout:
+
+```python
+right_panel.addWidget(self.preview, stretch=3)
+right_panel.addWidget(self.tags_label)
+right_panel.addWidget(self.tag_input)
+right_panel.addWidget(self.favorite_check)
+right_panel.addWidget(self.exif_label, stretch=2)
+right_panel.addWidget(self.export_btn)
+right_panel.addWidget(self.delete_btn)
+right_panel.addWidget(self.rename_btn)
+```
+
+Ahora los métodos:
+
+```python
+def delete_current(self):
+    if not self.current_image:
+        return
+
+    reply = QMessageBox.question(
+        self,
+        "Eliminar imagen",
+        f"¿Seguro que quieres eliminar:\n{self.current_image}?",
+        QMessageBox.Yes | QMessageBox.No
+    )
+
+    if reply != QMessageBox.Yes:
+        return
+
+    # Borrar de disco
+    try:
+        os.remove(self.current_image)
+    except Exception as e:
+        QMessageBox.warning(self, "Error", f"No se pudo eliminar:\n{e}")
+        return
+
+    # Borrar de DB
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("DELETE FROM tags WHERE image=?", (self.current_image,))
+    c.execute("DELETE FROM favorites WHERE image=?", (self.current_image,))
+    conn.commit()
+    conn.close()
+
+    # Borrar thumbnail
+    name = os.path.basename(self.current_image)
+    thumb_path = os.path.join("cache", name + ".thumb.jpg")
+    if os.path.exists(thumb_path):
+        os.remove(thumb_path)
+
+    self.current_image = None
+    self.preview.clear()
+    self.tags_label.setText("Etiquetas: -")
+    self.favorite_check.setChecked(False)
+    self.exif_label.setText("EXIF: -")
+
+    # Recargar carpeta si hay
+    if self.current_folder:
+        self.load_images(self.current_folder)
+
+
+def rename_current(self):
+    if not self.current_image:
+        return
+
+    from PyQt5.QtWidgets import QInputDialog
+
+    old_path = self.current_image
+    old_name = os.path.basename(old_path)
+
+    new_name, ok = QInputDialog.getText(
+        self,
+        "Renombrar imagen",
+        "Nuevo nombre (sin ruta):",
+        text=old_name
+    )
+
+    if not ok or not new_name.strip():
+        return
+
+    new_name = new_name.strip()
+    new_path = os.path.join(os.path.dirname(old_path), new_name)
+
+    # Renombrar archivo
+    try:
+        os.rename(old_path, new_path)
+    except Exception as e:
+        QMessageBox.warning(self, "Error", f"No se pudo renombrar:\n{e}")
+        return
+
+    # Actualizar DB
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("UPDATE tags SET image=? WHERE image=?", (new_path, old_path))
+    c.execute("UPDATE favorites SET image=? WHERE image=?", (new_path, old_path))
+    conn.commit()
+    conn.close()
+
+    # Actualizar current_image
+    self.current_image = new_path
+
+    # Recargar carpeta
+    if self.current_folder:
+        self.load_images(self.current_folder)
+```
+
+---
+
+### 3️⃣ Ordenar imágenes
+
+Añadimos un combo en el panel izquierdo para elegir orden:
+
+Arriba del `folder_list`:
+
+```python
+from PyQt5.QtWidgets import QComboBox
+```
+
+En el `__init__`:
+
+```python
+self.sort_combo = QComboBox()
+self.sort_combo.addItems(["Orden: nombre", "Orden: fecha", "Orden: tamaño"])
+self.sort_combo.currentIndexChanged.connect(self.reload_sorted)
+
+left_panel.addWidget(self.sort_combo)
+left_panel.addWidget(self.folder_list)
+```
+
+Y el método:
+
+```python
+def reload_sorted(self):
+    if not self.current_folder:
+        return
+    self.load_images(self.current_folder)
+
+
+def load_images(self, folder):
+    self.grid.clear()
+    images = scan_folder(folder)
+
+    # Ordenar según combo
+    mode = self.sort_combo.currentIndex() if hasattr(self, "sort_combo") else 0
+
+    if mode == 0:  # nombre
+        images.sort(key=lambda p: os.path.basename(p).lower())
+    elif mode == 1:  # fecha
+        images.sort(key=lambda p: os.path.getmtime(p))
+    elif mode == 2:  # tamaño
+        images.sort(key=lambda p: os.path.getsize(p))
+
+    for img in images:
+        thumb = get_thumbnail(img)
+        item = QListWidgetItem(QIcon(thumb), os.path.basename(img))
+        item.setData(Qt.UserRole, img)
+        self.grid.addItem(item)
+```
+
+---
+
+### 4️⃣ Modo oscuro sencillo
+
+Al final del `__init__`, añade:
+
+```python
+self.apply_dark_theme()
+```
+
+Y define:
+
+```python
+def apply_dark_theme(self):
+    self.setStyleSheet("""
+        QWidget {
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            font-family: Segoe UI;
+        }
+        QListWidget {
+            background-color: #252525;
+        }
+        QLineEdit {
+            background-color: #2b2b2b;
+            border: 1px solid #3a3a3a;
+            padding: 4px;
+        }
+        QPushButton {
+            background-color: #3a3a3a;
+            border: 1px solid #555;
+            padding: 6px;
+        }
+        QPushButton:hover {
+            background-color: #4a4a4a;
+        }
+    """)
+```
+
+---
+
+Con esto ya tienes:
+
+- Vista de favoritos  
+- Eliminar y renombrar  
+- Ordenar por nombre/fecha/tamaño  
+- Modo oscuro bastante decente  
+
+Cuando lo pruebes, dime qué tal se siente y qué es lo siguiente que te apetece: ¿slideshow, drag & drop, o algo más “friki” como filtros por extensión y tamaño?
+
+---
+
