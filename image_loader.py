@@ -6,7 +6,12 @@ CACHE_DIR = "cache"
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 def scan_folder(folder):
-    images = glob.glob(os.path.join(folder, "*.jpg")) + glob.glob(os.path.join(folder, "*.png"))
+    """Escanea la carpeta y TODAS sus subcarpetas."""
+    images = []
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            if file.lower().endswith((".jpg", ".png")):
+                images.append(os.path.join(root, file))
     return images
 
 def get_thumbnail(path, size=(200, 200)):
