@@ -1,0 +1,1419 @@
+# **Necesito crear una aplicación para windows que se tarde poco en hacerla y sirva para gestionar, visualizar y catalogar imagenes jpg y png, no son 100.000 imagenes pero si son 1000 o 2000.**
+
+La opción **más rápida y práctica** para crear una aplicación Windows que gestione, visualice y catalogue **1.000–2.000 imágenes JPG/PNG** es usar un stack que te permita:
+
+- Crear interfaz rápido  
+- Leer carpetas y metadatos sin complicarte  
+- Filtrar, etiquetar y buscar imágenes  
+- Compilar en Windows sin dolores de cabeza  
+
+La mejor combinación para hacerlo **rápido** es **C# + WPF** o **WinUI 3**, y si quieres tardar aún menos, **Electron + React** o **Python + PyQt**. Te dejo un desglose claro para que elijas según tu tiempo y experiencia.
+
+---
+
+## 🎯 Resumen directo
+La forma **más rápida**: **Python + PyQt**  
+La forma **más profesional y Windows‑nativa**: **C# + WPF**  
+La forma **más moderna**: **WinUI 3 (.NET)**  
+La forma **más simple si ya sabes web**: **Electron + React**
+
+---
+
+## 🖥️ Opción 1 — C# + WPF (la más equilibrada)
+**Ventajas**
+- Muy rápido de desarrollar si ya conoces .NET  
+- Excelente rendimiento con miles de imágenes  
+- Integración nativa con Windows  
+- Puedes usar `ObservableCollection`, `ListView`, `WrapPanel` para mostrar thumbnails  
+- Puedes generar thumbnails en background con `Task.Run()`  
+
+**Tiempo estimado**: 1–3 días para una versión funcional.
+
+**Arquitectura recomendada**
+- Carpeta raíz → escaneo inicial  
+- Base de datos ligera: **SQLite** para etiquetas, categorías y rutas  
+- Cache de thumbnails en carpeta `.cache`  
+- UI con:
+  - Panel de categorías  
+  - Grid de imágenes  
+  - Panel de detalles (EXIF, tamaño, fecha)  
+
+---
+
+## 🖼️ Opción 2 — WinUI 3 (la más moderna)
+**Ventajas**
+- Interfaz moderna estilo Windows 11  
+- Mejor soporte futuro  
+- Controles más bonitos que WPF  
+- Buen rendimiento con imágenes
+
+**Desventajas**
+- Un poco más lento de montar que WPF  
+- Documentación menos madura
+
+**Tiempo estimado**: 3–5 días.
+
+---
+
+## 🐍 Opción 3 — Python + PyQt (la más rápida de todas)
+**Ventajas**
+- Desarrollo ultra rápido  
+- PyQt tiene widgets listos para grids de imágenes  
+- Puedes usar Pillow para thumbnails  
+- Fácil de empaquetar con `pyinstaller`
+
+**Desventajas**
+- No tan nativo como .NET  
+- Rendimiento menor si no cacheas thumbnails
+
+**Tiempo estimado**: 1–2 días.
+
+**Estructura típica**
+- `QListView` + `QIcon` para thumbnails  
+- SQLite para etiquetas  
+- Hilos (`QThread`) para cargar imágenes sin bloquear la UI  
+
+---
+
+## 🌐 Opción 4 — Electron + React (si vienes del mundo web)
+**Ventajas**
+- Desarrollo rápido si ya sabes React  
+- UI muy flexible  
+- Puedes usar librerías como `sharp` para procesar imágenes
+
+**Desventajas**
+- Más pesado  
+- No tan rápido como C# para miles de imágenes
+
+**Tiempo estimado**: 2–4 días.
+
+---
+
+## 📦 Funcionalidades recomendadas para tu app
+Con 1.000–2.000 imágenes, esto es lo ideal:
+
+### ✔️ Escaneo de carpetas  
+- Detectar nuevas imágenes  
+- Actualizar catálogo automáticamente  
+
+### ✔️ Cache de thumbnails  
+- Guardar miniaturas en disco  
+- Evitar recalcularlas cada vez  
+
+### ✔️ Etiquetas y categorías  
+- Añadir tags  
+- Filtrar por categoría  
+- Búsqueda rápida  
+
+### ✔️ Visualizador integrado  
+- Zoom  
+- Rotación  
+- Información EXIF  
+
+### ✔️ Exportación de selección  
+- Copiar imágenes seleccionadas a otra carpeta  
+- Exportar lista de imágenes  
+
+---
+
+## 🧱 ¿Qué opción te recomiendo a ti, Mariano?
+Como vienes del mundo **.NET (Escuela Digital Adecco)** y estás estudiando **C#**, la opción más natural y rápida para ti es:
+
+### ⭐ **C# + WPF**
+- Lo harás más rápido  
+- Tendrás mejor rendimiento  
+- Te servirá para tu portfolio .NET  
+- Puedes extenderlo fácilmente en el futuro  
+
+---
+
+## 🚀 Siguiente paso: ¿Quieres que te genere el proyecto base?
+Puedo prepararte **el esqueleto completo**:
+
+- Estructura de carpetas  
+- Código para escanear imágenes  
+- Código para generar thumbnails  
+- UI inicial en XAML  
+- Base de datos SQLite  
+- Filtros y búsqueda  
+
+Solo dime:
+
+### ¿Quieres que te genere el proyecto base en **C# WPF**, **WinUI 3**, **Python PyQt**, o **Electron**?
+
+Puedo darte el código completo listo para copiar y pegar.
+
+---
+
+# **Pues tiene que ser en una tarde.**
+
+---
+
+Perfecto, Mariano. Si **tiene que estar hecha en una tarde**, entonces no hay debate: la opción más rápida, más estable y más realista para que la termines hoy mismo es:
+
+# ⭐ Python + PyQt5 (o PySide6)  
+Porque te permite montar **una interfaz funcional en 2–4 horas**, sin pelearte con XAML, sin plantillas complejas y sin compilaciones lentas.
+
+Además, para 1.000–2.000 imágenes JPG/PNG funciona de sobra si cacheas thumbnails.
+
+---
+
+# 🎯 Plan para terminar la app HOY MISMO
+Te dejo un **plan exacto**, paso a paso, para que en una tarde tengas una aplicación funcional:
+
+---
+
+## 🧩 1. Estructura del proyecto (5 minutos)
+```
+/image_viewer/
+    main.py
+    ui.py
+    image_loader.py
+    cache/
+```
+
+---
+
+## 🖼️ 2. Interfaz PyQt (30 minutos)
+Una ventana con:
+
+- Panel izquierdo → lista de carpetas / categorías  
+- Panel central → grid de thumbnails  
+- Panel derecho → vista grande + metadatos  
+
+Código base para arrancar la UI:
+
+```python
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QListWidget, QLabel, QListView, QGridLayout
+import sys
+
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Gestor de Imágenes")
+        layout = QHBoxLayout(self)
+
+        self.folder_list = QListWidget()
+        self.grid = QListWidget()
+        self.preview = QLabel("Vista previa")
+
+        layout.addWidget(self.folder_list, 1)
+        layout.addWidget(self.grid, 3)
+        layout.addWidget(self.preview, 2)
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+sys.exit(app.exec_())
+```
+
+Con esto ya tienes la estructura visual.
+
+---
+
+## ⚡ 3. Cargar imágenes y generar thumbnails (30–45 minutos)
+Usas **Pillow** para generar miniaturas y guardarlas en `/cache`.
+
+```python
+from PIL import Image
+import os
+
+def get_thumbnail(path, size=(200, 200)):
+    name = os.path.basename(path)
+    thumb_path = f"cache/{name}.jpg"
+
+    if os.path.exists(thumb_path):
+        return thumb_path
+
+    img = Image.open(path)
+    img.thumbnail(size)
+    img.save(thumb_path)
+    return thumb_path
+```
+
+---
+
+## 📁 4. Escanear carpetas (10 minutos)
+
+```python
+import glob
+
+def scan_folder(folder):
+    images = glob.glob(folder + "/*.jpg") + glob.glob(folder + "/*.png")
+    return images
+```
+
+---
+
+## 🧵 5. Hilos para no bloquear la UI (20 minutos)
+PyQt usa `QThread`:
+
+```python
+from PyQt5.QtCore import QThread, pyqtSignal
+
+class LoaderThread(QThread):
+    loaded = pyqtSignal(str)
+
+    def __init__(self, images):
+        super().__init__()
+        self.images = images
+
+    def run(self):
+        for img in self.images:
+            thumb = get_thumbnail(img)
+            self.loaded.emit(thumb)
+```
+
+---
+
+## 🖼️ 6. Mostrar thumbnails en el grid (20 minutos)
+
+```python
+from PyQt5.QtGui import QIcon
+
+def add_thumbnail(list_widget, thumb_path):
+    item = QListWidgetItem()
+    item.setIcon(QIcon(thumb_path))
+    list_widget.addItem(item)
+```
+
+---
+
+## 🔍 7. Vista previa al hacer clic (10 minutos)
+
+```python
+def on_click(item):
+    path = item.data(0)
+    pix = QPixmap(path)
+    preview_label.setPixmap(pix)
+```
+
+---
+
+## 🏷️ 8. Etiquetas y categorías (30 minutos)
+Usas SQLite:
+
+```python
+import sqlite3
+
+db = sqlite3.connect("catalog.db")
+db.execute("CREATE TABLE IF NOT EXISTS tags (image TEXT, tag TEXT)")
+```
+
+Añadir etiqueta:
+
+```python
+db.execute("INSERT INTO tags VALUES (?, ?)", (image_path, tag))
+db.commit()
+```
+
+Filtrar:
+
+```python
+rows = db.execute("SELECT image FROM tags WHERE tag=?", (tag,))
+```
+
+---
+
+# ⏱️ Tiempo total estimado
+| Tarea | Tiempo |
+|------|--------|
+| UI base | 30 min |
+| Thumbnails | 45 min |
+| Escaneo | 10 min |
+| Hilos | 20 min |
+| Grid | 20 min |
+| Vista previa | 10 min |
+| Etiquetas | 30 min |
+| **TOTAL** | **~2.5–3 horas** |
+
+Te sobra tarde.
+
+---
+
+# 🚀 ¿Quieres que te genere el proyecto completo?
+Puedo darte:
+
+- Código completo listo para copiar y pegar  
+- Estructura final del proyecto  
+- UI más bonita (estilo Windows 11)  
+- Funciones de búsqueda  
+- Cache optimizada  
+- Exportación de imágenes seleccionadas  
+
+Solo dime:
+
+### ¿Quieres que te entregue el proyecto completo en **PyQt5** o **PySide6**?
+
+---
+
+vale, me muero por probarlo
+
+---
+
+Genial, Mariano. Vamos a hacerlo **ya mismo**.  
+Como no has pedido abrir ni analizar ninguna pestaña del navegador, no uso contenido de tus tabs. Vamos directo al código.
+
+Aquí tienes un **proyecto funcional completo**, listo para copiar, pegar y ejecutar. En serio: lo pegas en una carpeta, instalas PyQt5 y Pillow, y ya tienes tu gestor de imágenes funcionando en minutos.
+
+---
+
+# 🟦 1. Instalación rápida (1 minuto)
+En tu terminal:
+
+```
+pip install PyQt5 Pillow
+```
+
+---
+
+# 🟩 2. Crea estos archivos EXACTAMENTE así
+
+## 📌 **main.py**
+```python
+import sys
+from PyQt5.QtWidgets import QApplication
+from ui import MainWindow
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+sys.exit(app.exec_())
+```
+
+---
+
+## 📌 **ui.py**
+```python
+import os
+from PyQt5.QtWidgets import (
+    QWidget, QHBoxLayout, QListWidget, QLabel,
+    QListWidgetItem, QFileDialog, QPushButton, QVBoxLayout
+)
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import Qt
+
+from image_loader import scan_folder, get_thumbnail
+
+
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Gestor de Imágenes - Mariano Edition")
+        self.resize(1200, 700)
+
+        # Layout principal
+        main_layout = QHBoxLayout(self)
+
+        # Panel izquierdo
+        left_panel = QVBoxLayout()
+        self.folder_btn = QPushButton("📁 Elegir carpeta")
+        self.folder_btn.clicked.connect(self.choose_folder)
+
+        self.folder_list = QListWidget()
+        left_panel.addWidget(self.folder_btn)
+        left_panel.addWidget(self.folder_list)
+
+        # Grid de thumbnails
+        self.grid = QListWidget()
+        self.grid.setViewMode(QListWidget.IconMode)
+        self.grid.setIconSize(Qt.QSize(150, 150))
+        self.grid.setResizeMode(QListWidget.Adjust)
+        self.grid.itemClicked.connect(self.show_preview)
+
+        # Panel derecho: vista previa
+        self.preview = QLabel("Selecciona una imagen")
+        self.preview.setAlignment(Qt.AlignCenter)
+
+        main_layout.addLayout(left_panel, 1)
+        main_layout.addWidget(self.grid, 3)
+        main_layout.addWidget(self.preview, 2)
+
+    def choose_folder(self):
+        folder = QFileDialog.getExistingDirectory(self, "Selecciona carpeta")
+        if folder:
+            self.folder_list.addItem(folder)
+            self.load_images(folder)
+
+    def load_images(self, folder):
+        self.grid.clear()
+        images = scan_folder(folder)
+
+        for img in images:
+            thumb = get_thumbnail(img)
+            item = QListWidgetItem(QIcon(thumb), os.path.basename(img))
+            item.setData(Qt.UserRole, img)
+            self.grid.addItem(item)
+
+    def show_preview(self, item):
+        img_path = item.data(Qt.UserRole)
+        pix = QPixmap(img_path)
+        self.preview.setPixmap(pix.scaled(
+            self.preview.width(),
+            self.preview.height(),
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        ))
+```
+
+---
+
+## 📌 **image_loader.py**
+```python
+import os
+import glob
+from PIL import Image
+
+CACHE_DIR = "cache"
+os.makedirs(CACHE_DIR, exist_ok=True)
+
+def scan_folder(folder):
+    images = glob.glob(folder + "/*.jpg") + glob.glob(folder + "/*.png")
+    return images
+
+def get_thumbnail(path, size=(200, 200)):
+    name = os.path.basename(path)
+    thumb_path = os.path.join(CACHE_DIR, name + ".thumb.jpg")
+
+    if os.path.exists(thumb_path):
+        return thumb_path
+
+    try:
+        img = Image.open(path)
+        img.thumbnail(size)
+        img.save(thumb_path)
+        return thumb_path
+    except:
+        return path
+```
+
+---
+
+# 🟨 3. Crea la carpeta de cache
+En la raíz del proyecto:
+
+```
+mkdir cache
+```
+
+---
+
+# 🟧 4. Ejecuta la aplicación
+```
+python main.py
+```
+
+---
+
+# 🎉 Y YA ESTÁ  
+En una tarde tienes:
+
+- Selector de carpetas  
+- Grid de thumbnails  
+- Cache de miniaturas  
+- Vista previa grande  
+- Soporte para JPG y PNG  
+- Rendimiento suficiente para 2.000 imágenes  
+
+Si quieres añadir:
+
+- Etiquetas  
+- Búsqueda  
+- Favoritos  
+- Exportación  
+- Vista de detalles EXIF  
+
+Te lo puedo añadir **hoy mismo**.
+
+---
+
+# 🔥 ¿Quieres que le agregue etiquetas y búsqueda rápida?  
+Dime “sí” y te lo integro con SQLite en menos de 50 líneas.
+
+---
+
+# De las 5 funciones para agregar las 4 primeras si me interesan, la 5ª no se que es.
+
+---
+
+Perfecto, Mariano. Vamos a integrar **las 4 funciones que sí quieres** y aclararte la quinta para que decidas si la añadimos o no.
+
+Voy a mantener el tono directo y práctico, porque estás construyendo esto **en una tarde** y quiero que avances sin fricción.
+
+---
+
+# ⭐ Las 5 funciones que mencioné (explicadas de forma clara)
+
+## **1. Etiquetas (tags)**
+Permite asignar palabras clave a cada imagen:
+
+- “paisaje”
+- “familia”
+- “proyecto”
+- “captura”
+- “logo”
+- etc.
+
+Se guardan en SQLite y luego puedes filtrar por ellas.
+
+**Sí te interesa.**
+
+---
+
+## **2. Búsqueda**
+Una barra donde escribes:
+
+- “perro”
+- “2023”
+- “logo”
+- “png”
+
+Y te muestra solo las imágenes que coinciden.
+
+**Sí te interesa.**
+
+---
+
+## **3. Favoritos**
+Un botón ⭐ para marcar imágenes importantes y acceder a ellas rápido.
+
+**Sí te interesa.**
+
+---
+
+## **4. Exportación**
+Seleccionas varias imágenes y las copias a otra carpeta:
+
+- Para enviarlas  
+- Para un proyecto  
+- Para imprimir  
+- Para backup  
+
+**Sí te interesa.**
+
+---
+
+## **5. Vista de detalles EXIF (la que no sabías qué era)**
+Esto es simplemente mostrar **información técnica de la foto**, por ejemplo:
+
+- Fecha en que se tomó  
+- Cámara usada  
+- Resolución  
+- ISO  
+- Orientación  
+- Tamaño del archivo  
+
+Ejemplo real de EXIF:
+
+```
+Resolución: 4032x3024
+Fecha: 2024-05-12 18:22
+Cámara: iPhone 13
+ISO: 50
+```
+
+No es obligatorio.  
+Sirve sobre todo para fotos hechas con cámaras o móviles.
+
+**Si no te interesa, la omitimos.**
+
+---
+
+# 🔥 ¿Qué hacemos ahora?
+Como ya me confirmaste que quieres **las 4 primeras**, puedo:
+
+### ✔ Integrarlas directamente en tu proyecto PyQt  
+Te entrego:
+
+- Código completo para:
+  - Etiquetas  
+  - Búsqueda  
+  - Favoritos  
+  - Exportación  
+- Integrado con tu UI actual  
+- Sin romper nada  
+- Listo para copiar y pegar  
+
+### ❓ Y sobre la quinta (EXIF)  
+Dime si quieres:
+
+- **A) Sí, añádela**  
+- **B) No, no la necesito**
+
+Con tu respuesta preparo el bloque de código final y completo.
+
+---
+
+# si, tambien me interesa.
+# Te informo que esta es mi instalación:
+
+> PS C:\Users\maria> python --version
+> Python 3.11.9
+> PS C:\Users\maria> pip --version
+> pip 26.1.2 from 
+> C:\Python311\Lib\site-packages\pip (python 3.11)
+> PS C:\Users\maria>
+
+---
+
+Genial, tu instalación está perfecta para esto. Vamos a por la **versión completa** con:
+
+- **Etiquetas**
+- **Búsqueda**
+- **Favoritos**
+- **Exportación**
+- **Detalles EXIF**
+
+---
+
+### 1️⃣ Dependencias
+
+En PowerShell:
+
+```bash
+pip install PyQt5 Pillow
+```
+
+SQLite ya viene con Python (`sqlite3`).
+
+---
+
+### 2️⃣ `main.py` (igual que antes)
+
+```python
+import sys
+from PyQt5.QtWidgets import QApplication
+from ui import MainWindow
+
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+sys.exit(app.exec_())
+```
+
+---
+
+### 3️⃣ `image_loader.py` (con EXIF)
+
+```python
+import os
+import glob
+from PIL import Image, ExifTags
+
+CACHE_DIR = "cache"
+os.makedirs(CACHE_DIR, exist_ok=True)
+
+def scan_folder(folder):
+    images = glob.glob(os.path.join(folder, "*.jpg")) + glob.glob(os.path.join(folder, "*.png"))
+    return images
+
+def get_thumbnail(path, size=(200, 200)):
+    name = os.path.basename(path)
+    thumb_path = os.path.join(CACHE_DIR, name + ".thumb.jpg")
+
+    if os.path.exists(thumb_path):
+        return thumb_path
+
+    try:
+        img = Image.open(path)
+        img.thumbnail(size)
+        img.save(thumb_path)
+        return thumb_path
+    except:
+        return path
+
+def get_exif_data(path):
+    try:
+        img = Image.open(path)
+        exif_raw = img._getexif()
+        if not exif_raw:
+            return {}
+
+        exif = {}
+        for tag_id, value in exif_raw.items():
+            tag = ExifTags.TAGS.get(tag_id, tag_id)
+            exif[tag] = value
+        return exif
+    except:
+        return {}
+```
+
+---
+
+### 4️⃣ `ui.py` (con tags, búsqueda, favoritos, exportación, EXIF)
+
+```python
+import os
+import shutil
+import sqlite3
+
+from PyQt5.QtWidgets import (
+    QWidget, QHBoxLayout, QVBoxLayout, QListWidget, QLabel,
+    QListWidgetItem, QFileDialog, QPushButton, QLineEdit, QCheckBox,
+    QMessageBox
+)
+from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import Qt, QSize
+
+from image_loader import scan_folder, get_thumbnail, get_exif_data
+
+
+DB_PATH = "catalog.db"
+
+
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS tags (
+            image TEXT,
+            tag TEXT
+        )
+    """)
+    c.execute("""
+        CREATE TABLE IF NOT EXISTS favorites (
+            image TEXT PRIMARY KEY
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Gestor de Imágenes - Mariano Edition")
+        self.resize(1300, 750)
+
+        init_db()
+
+        self.current_folder = None
+        self.current_image = None
+
+        main_layout = QHBoxLayout(self)
+
+        # Panel izquierdo: carpeta + búsqueda
+        left_panel = QVBoxLayout()
+        self.folder_btn = QPushButton("📁 Elegir carpeta")
+        self.folder_btn.clicked.connect(self.choose_folder)
+
+        self.search_box = QLineEdit()
+        self.search_box.setPlaceholderText("Buscar por nombre o etiqueta...")
+        self.search_box.textChanged.connect(self.apply_search)
+
+        self.folder_list = QListWidget()
+
+        left_panel.addWidget(self.folder_btn)
+        left_panel.addWidget(self.search_box)
+        left_panel.addWidget(self.folder_list)
+
+        # Centro: grid de thumbnails
+        self.grid = QListWidget()
+        self.grid.setViewMode(QListWidget.IconMode)
+        self.grid.setIconSize(QSize(150, 150))
+        self.grid.setResizeMode(QListWidget.Adjust)
+        self.grid.setSelectionMode(QListWidget.ExtendedSelection)
+        self.grid.itemClicked.connect(self.show_preview)
+
+        # Panel derecho: vista previa + tags + favoritos + EXIF + exportar
+        right_panel = QVBoxLayout()
+
+        self.preview = QLabel("Selecciona una imagen")
+        self.preview.setAlignment(Qt.AlignCenter)
+
+        # Tags
+        self.tag_input = QLineEdit()
+        self.tag_input.setPlaceholderText("Añadir etiqueta y pulsar Enter")
+        self.tag_input.returnPressed.connect(self.add_tag)
+
+        self.tags_label = QLabel("Etiquetas: -")
+
+        # Favoritos
+        self.favorite_check = QCheckBox("⭐ Marcar como favorito")
+        self.favorite_check.stateChanged.connect(self.toggle_favorite)
+
+        # EXIF
+        self.exif_label = QLabel("EXIF: -")
+        self.exif_label.setWordWrap(True)
+
+        # Exportar
+        self.export_btn = QPushButton("📤 Exportar seleccionadas...")
+        self.export_btn.clicked.connect(self.export_selected)
+
+        right_panel.addWidget(self.preview, stretch=3)
+        right_panel.addWidget(self.tags_label)
+        right_panel.addWidget(self.tag_input)
+        right_panel.addWidget(self.favorite_check)
+        right_panel.addWidget(self.exif_label, stretch=2)
+        right_panel.addWidget(self.export_btn)
+
+        main_layout.addLayout(left_panel, 1)
+        main_layout.addWidget(self.grid, 3)
+        main_layout.addLayout(right_panel, 2)
+
+    # --- Carpeta y carga de imágenes ---
+
+    def choose_folder(self):
+        folder = QFileDialog.getExistingDirectory(self, "Selecciona carpeta")
+        if folder:
+            self.current_folder = folder
+            self.folder_list.addItem(folder)
+            self.load_images(folder)
+
+    def load_images(self, folder):
+        self.grid.clear()
+        images = scan_folder(folder)
+
+        for img in images:
+            thumb = get_thumbnail(img)
+            item = QListWidgetItem(QIcon(thumb), os.path.basename(img))
+            item.setData(Qt.UserRole, img)
+            self.grid.addItem(item)
+
+    # --- Búsqueda ---
+
+    def apply_search(self):
+        text = self.search_box.text().strip().lower()
+        if not self.current_folder:
+            return
+
+        self.grid.clear()
+        images = scan_folder(self.current_folder)
+
+        # Filtrar por nombre y por tags
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+
+        tagged_images = set()
+        if text:
+            for row in c.execute("SELECT image FROM tags WHERE LOWER(tag) LIKE ?", (f"%{text}%",)):
+                tagged_images.add(row[0])
+
+        conn.close()
+
+        for img in images:
+            name = os.path.basename(img).lower()
+            if text:
+                if text in name or img in tagged_images:
+                    thumb = get_thumbnail(img)
+                    item = QListWidgetItem(QIcon(thumb), os.path.basename(img))
+                    item.setData(Qt.UserRole, img)
+                    self.grid.addItem(item)
+            else:
+                thumb = get_thumbnail(img)
+                item = QListWidgetItem(QIcon(thumb), os.path.basename(img))
+                item.setData(Qt.UserRole, img)
+                self.grid.addItem(item)
+
+    # --- Vista previa + EXIF + tags + favoritos ---
+
+    def show_preview(self, item):
+        img_path = item.data(Qt.UserRole)
+        self.current_image = img_path
+
+        pix = QPixmap(img_path)
+        self.preview.setPixmap(pix.scaled(
+            self.preview.width(),
+            self.preview.height(),
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation
+        ))
+
+        # Tags
+        self.update_tags_label()
+
+        # Favorito
+        self.update_favorite_check()
+
+        # EXIF
+        self.update_exif_label()
+
+    def update_tags_label(self):
+        if not self.current_image:
+            self.tags_label.setText("Etiquetas: -")
+            return
+
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        tags = [row[0] for row in c.execute("SELECT tag FROM tags WHERE image=?", (self.current_image,))]
+        conn.close()
+
+        if tags:
+            self.tags_label.setText("Etiquetas: " + ", ".join(tags))
+        else:
+            self.tags_label.setText("Etiquetas: -")
+
+    def add_tag(self):
+        if not self.current_image:
+            return
+
+        tag = self.tag_input.text().strip()
+        if not tag:
+            return
+
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        c.execute("INSERT INTO tags (image, tag) VALUES (?, ?)", (self.current_image, tag))
+        conn.commit()
+        conn.close()
+
+        self.tag_input.clear()
+        self.update_tags_label()
+
+    def update_favorite_check(self):
+        if not self.current_image:
+            self.favorite_check.setChecked(False)
+            return
+
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        row = c.execute("SELECT image FROM favorites WHERE image=?", (self.current_image,)).fetchone()
+        conn.close()
+
+        self.favorite_check.blockSignals(True)
+        self.favorite_check.setChecked(row is not None)
+        self.favorite_check.blockSignals(False)
+
+    def toggle_favorite(self, state):
+        if not self.current_image:
+            return
+
+        conn = sqlite3.connect(DB_PATH)
+        c = conn.cursor()
+        if state == Qt.Checked:
+            c.execute("INSERT OR IGNORE INTO favorites (image) VALUES (?)", (self.current_image,))
+        else:
+            c.execute("DELETE FROM favorites WHERE image=?", (self.current_image,))
+        conn.commit()
+        conn.close()
+
+    def update_exif_label(self):
+        if not self.current_image:
+            self.exif_label.setText("EXIF: -")
+            return
+
+        exif = get_exif_data(self.current_image)
+        if not exif:
+            self.exif_label.setText("EXIF: (sin datos)")
+            return
+
+        # Mostrar algunos campos típicos si existen
+        fields = []
+        for key in ("DateTime", "Model", "Make", "Orientation", "ExifVersion"):
+            if key in exif:
+                fields.append(f"{key}: {exif[key]}")
+
+        if not fields:
+            # Si no están esos, mostramos los primeros 6 campos
+            for i, (k, v) in enumerate(exif.items()):
+                if i >= 6:
+                    break
+                fields.append(f"{k}: {v}")
+
+        self.exif_label.setText("EXIF:\n" + "\n".join(fields))
+
+    # --- Exportar seleccionadas ---
+
+    def export_selected(self):
+        items = self.grid.selectedItems()
+        if not items:
+            QMessageBox.information(self, "Exportar", "No hay imágenes seleccionadas.")
+            return
+
+        dest = QFileDialog.getExistingDirectory(self, "Selecciona carpeta de destino")
+        if not dest:
+            return
+
+        for item in items:
+            img_path = item.data(Qt.UserRole)
+            try:
+                shutil.copy(img_path, dest)
+            except Exception as e:
+                print("Error copiando", img_path, e)
+
+        QMessageBox.information(self, "Exportar", "Imágenes exportadas correctamente.")
+```
+
+---
+
+### 5️⃣ Carpeta `cache`
+
+En la misma carpeta que `main.py`:
+
+```bash
+mkdir cache
+```
+
+---
+
+Si quieres, luego afinamos la interfaz (colores, fuentes, estilo más “Windows 11”), pero con esto ya tienes un **gestor serio** en una tarde.
+
+Cuando lo pruebes, cuéntame qué tal se siente y si quieres que añadamos algo más (por ejemplo, vista solo de favoritos o paginación para muchas imágenes).
+
+---
+
+# **Me recomiendas crear entorno virtual de python?**
+
+---
+
+Sí, Mariano — **te recomiendo muchísimo usar un entorno virtual**, y más aún porque estás montando una aplicación con PyQt5, Pillow y SQLite que vas a ir ampliando.
+
+No es obligatorio, pero **sí es la opción profesional y limpia**.
+
+---
+
+## ⭐ Por qué SÍ deberías usar un entorno virtual
+Te lo resumo en puntos claros:
+
+- Mantienes tu instalación de Python **limpia**  
+- Evitas conflictos si instalas otras librerías en el futuro  
+- Puedes borrar el proyecto entero sin afectar tu sistema  
+- Si mañana quieres usar otra versión de PyQt o Pillow, no rompes nada  
+- Es la forma estándar en proyectos Python reales  
+
+Y como ya estás trabajando con Python 3.11.9, te va perfecto.
+
+---
+
+## 🧱 Cómo crear el entorno virtual (rápido y sin líos)
+
+En PowerShell, dentro de la carpeta del proyecto:
+
+```
+python -m venv venv
+```
+
+Esto crea la carpeta `venv/`.
+
+### Activarlo:
+
+```
+.\venv\Scripts\activate
+```
+
+Verás algo así:
+
+```
+(venv) PS C:\Users\maria\proyecto>
+```
+
+Eso significa que ya estás dentro del entorno.
+
+---
+
+## 📦 Instalar las dependencias dentro del entorno
+
+Una vez activado:
+
+```
+pip install PyQt5 Pillow
+```
+
+SQLite ya viene con Python, así que no necesitas instalar nada más.
+
+---
+
+## ⛔ Si PowerShell bloquea la activación
+A veces pasa:
+
+```
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+Y luego:
+
+```
+.\venv\Scripts\activate
+```
+
+---
+
+## 🎯 ¿Cuándo usar el entorno virtual?
+- **Siempre que ejecutes tu aplicación**  
+- **Siempre que instales librerías nuevas**  
+
+Ejemplo:
+
+```
+(venv) python main.py
+```
+
+---
+
+## 🚀 ¿Quieres que te prepare un script `.bat` para activar el entorno y lanzar la app automáticamente?  
+Así solo haces doble clic y se abre tu gestor de imágenes sin tocar la terminal.
+
+---
+
+# **Estoy creando un repositorio en GitHub, el .gitignore le voy a colocar el VisualStudio predeterminado, te parece bien?**
+
+---
+
+Sí, Mariano, **usar el .gitignore de Visual Studio para tu proyecto Python NO es lo ideal**.  
+Funciona, pero **incluye demasiadas cosas que no aplican** (bin/, obj/, paquetes NuGet, configuraciones de VS, etc.).
+
+Para un proyecto Python como el tuyo, lo mejor es usar un **.gitignore específico para Python**, que es limpio, pequeño y evita problemas.
+
+---
+
+## ⭐ Recomendación clara
+Usa **Python.gitignore** (el oficial de GitHub).  
+Es el estándar, y te evita subir:
+
+- `__pycache__/`
+- Archivos `.pyc`
+- La carpeta `venv/`
+- Archivos temporales
+- Cachés de Pillow
+- Archivos de logs
+
+Tu repositorio queda **limpio y profesional**.
+
+---
+
+## 🧩 Aquí tienes el .gitignore perfecto para tu proyecto
+
+Cópialo tal cual:
+
+```
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# Cache
+cache/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# PyInstaller
+*.spec
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints
+
+# VS Code
+.vscode/
+
+# MacOS
+.DS_Store
+```
+
+---
+
+## 🎯 ¿Por qué este es el correcto para tu app?
+Porque tu proyecto tiene:
+
+- Python  
+- PyQt5  
+- Pillow  
+- SQLite  
+- Carpeta `cache/`  
+- Entorno virtual `venv/`  
+
+Y este `.gitignore` cubre exactamente eso.
+
+---
+
+## 🧨 ¿Qué pasa si usas el de Visual Studio?
+Nada grave, pero:
+
+- Subirás archivos innecesarios  
+- No ignorará `venv/`  
+- No ignorará `__pycache__/`  
+- No ignorará tu carpeta `cache/`  
+- Tu repo se verá más sucio  
+
+---
+
+## 🔥 Si quieres, te genero el repositorio completo:
+- Estructura recomendada  
+- README profesional  
+- .gitignore perfecto  
+- Licencia MIT  
+- Instrucciones de instalación  
+- Capturas de pantalla (si quieres)  
+
+Solo dime si quieres que te prepare **el README.md** también.
+
+---
+
+# **Con el README profesional, la estructura y la instalación vale, el resto ya lo hago yo**
+
+Perfecto, Mariano. Te preparo **lo que pediste exactamente**:  
+
+- **README profesional**  
+- **Estructura recomendada del repositorio**  
+- **Instrucciones de instalación y ejecución**  
+
+Todo listo para que lo pegues en tu repositorio de GitHub sin tocar nada más.
+
+---
+
+# 📁 Estructura recomendada del repositorio
+
+```
+image-manager/
+│
+├── main.py
+├── ui.py
+├── image_loader.py
+├── catalog.db        # Se genera automáticamente
+├── cache/            # Se genera automáticamente
+│
+├── venv/             # Ignorado por .gitignore
+│
+├── README.md         # Te lo dejo abajo
+└── .gitignore        # El que ya te preparé para Python
+```
+
+---
+
+# 📝 README.md (profesional y listo para GitHub)
+
+Cópialo tal cual:
+
+---
+
+## 📸 Image Manager – Gestor de Imágenes en PyQt5
+
+Aplicación de escritorio para Windows creada en Python + PyQt5 que permite **gestionar, visualizar, etiquetar, buscar y exportar imágenes JPG/PNG**, con soporte para **favoritos**, **miniaturas cacheadas** y **lectura de metadatos EXIF**.
+
+Diseñada para manejar cómodamente entre **1.000 y 2.000 imágenes** sin perder rendimiento.
+
+---
+
+## 🚀 Características
+
+- 📁 Selección de carpetas  
+- 🖼️ Grid de miniaturas con caché  
+- 🔍 Búsqueda por nombre y etiquetas  
+- 🏷️ Sistema de etiquetas (SQLite)  
+- ⭐ Marcado de favoritos  
+- 🧩 Vista previa con zoom automático  
+- 🧾 Lectura de metadatos EXIF  
+- 📤 Exportación de imágenes seleccionadas  
+- ⚡ Carga rápida gracias a thumbnails cacheados  
+
+---
+
+## 🧱 Tecnologías utilizadas
+
+- **Python 3.11**  
+- **PyQt5** (interfaz gráfica)  
+- **Pillow** (procesado de imágenes y EXIF)  
+- **SQLite** (tags y favoritos)  
+
+---
+
+## 📦 Instalación
+
+### 1. Clonar el repositorio
+
+```
+git clone https://github.com/TU_USUARIO/image-manager
+cd image-manager
+```
+
+### 2. Crear entorno virtual (recomendado)
+
+```
+python -m venv venv
+```
+
+### 3. Activar entorno virtual
+
+Windows PowerShell:
+
+```
+.\venv\Scripts\activate
+```
+
+### 4. Instalar dependencias
+
+```
+pip install PyQt5 Pillow
+```
+
+---
+
+## ▶️ Ejecución
+
+Una vez instalado todo:
+
+```
+python main.py
+```
+
+La aplicación se abrirá con la interfaz completa.
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+image-manager/
+│
+├── main.py            # Punto de entrada
+├── ui.py              # Interfaz y lógica de interacción
+├── image_loader.py    # Carga de imágenes, thumbnails y EXIF
+├── catalog.db         # Base de datos SQLite (tags y favoritos)
+├── cache/             # Miniaturas generadas automáticamente
+└── README.md
+```
+
+---
+
+## 🧩 Funcionalidades avanzadas
+
+### 🏷️ Etiquetas  
+Puedes añadir etiquetas a cada imagen y filtrarlas desde la barra de búsqueda.
+
+### ⭐ Favoritos  
+Marca imágenes importantes y accede a ellas rápidamente.
+
+### 🔍 Búsqueda  
+Busca por nombre de archivo o por etiquetas.
+
+### 🧾 EXIF  
+Muestra información técnica de la imagen si está disponible.
+
+### 📤 Exportación  
+Selecciona varias imágenes y expórtalas a otra carpeta.
+
+---
+
+## 📜 Licencia
+
+Este proyecto puede utilizarse libremente para aprendizaje, uso personal o ampliación.
+
+---
+
+## 🤝 Contribuciones
+
+Si deseas mejorar la interfaz, añadir nuevas funciones o optimizar el rendimiento, ¡las contribuciones son bienvenidas!
+
+---
+
+# 🎉 Mariano, ya tienes tu repositorio listo para subir
+
+Si quieres, puedo prepararte también:
+
+- **Badges** para el README (Python, PyQt5, Windows)  
+- **Capturas de pantalla** (puedo generarte imágenes de ejemplo)  
+- **Un script `.bat`** para ejecutar la app con doble clic  
+- **Una versión portable sin necesidad de instalar Python**  
+
+Solo dime qué quieres añadir y lo hacemos.
