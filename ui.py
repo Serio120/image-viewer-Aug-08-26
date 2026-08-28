@@ -86,6 +86,10 @@ class MainWindow(QWidget):
         self.preview = QLabel("Selecciona una imagen")
         self.preview.setAlignment(Qt.AlignCenter)
 
+        # NUEVO: mostrar ruta completa
+        self.path_label = QLabel("Ruta: -")
+        self.path_label.setWordWrap(True)
+
         self.tag_input = QLineEdit()
         self.tag_input.setPlaceholderText("Añadir etiqueta y pulsar Enter")
         self.tag_input.returnPressed.connect(self.add_tag)
@@ -108,6 +112,7 @@ class MainWindow(QWidget):
         self.rename_btn.clicked.connect(self.rename_current)
 
         right_panel.addWidget(self.preview, stretch=3)
+        right_panel.addWidget(self.path_label)  # ← NUEVO
         right_panel.addWidget(self.tags_label)
         right_panel.addWidget(self.tag_input)
         right_panel.addWidget(self.favorite_check)
@@ -250,6 +255,9 @@ class MainWindow(QWidget):
             Qt.KeepAspectRatio,
             Qt.SmoothTransformation
         ))
+
+        # NUEVO: mostrar ruta completa
+        self.path_label.setText(f"Ruta:\n{img_path}")
 
         self.update_tags_label()
         self.update_favorite_check()
@@ -405,6 +413,7 @@ class MainWindow(QWidget):
 
         self.current_image = None
         self.preview.clear()
+        self.path_label.setText("Ruta: -")
         self.tags_label.setText("Etiquetas: -")
         self.favorite_check.setChecked(False)
         self.exif_label.setText("EXIF: -")
