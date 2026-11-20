@@ -12,6 +12,9 @@ env/
 # Cache
 cache/
 
+# Local application data
+catalog.db
+
 # Distribution / packaging
 build/
 dist/
